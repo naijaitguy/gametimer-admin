@@ -2,10 +2,8 @@ version: '3.4'
 
 services:
   gametimeradmin:
-    image: gametimeradmin
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    image: "${IMAGE_TAG}"
+    restart: always
     depends_on:
       - postgresdb
 
