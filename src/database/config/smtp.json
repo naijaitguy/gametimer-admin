@@ -1,0 +1,22 @@
+{
+  "development": {
+    "host": "email-smtp.eu-west-1.amazonaws.com",
+    "port": 465,
+    "auth": {
+        "user": "AKIATM7S5S6DBUPGJOW4",
+        "pass": "6ffRo50ysrUwTmamVN1VZExWzKO488kSJQAMh+f8"
+    },
+    "region": "eu-west-1",
+    "secure": true
+  },
+  "production": {
+    "host": "smtp.mailtrap.io",
+    "port": 2525,
+    "auth": {
+        "user": "4640434af668bd",
+        "pass": "0a95bc83a235d3"
+    },    
+    "region": "eu-west-1",
+    "secure": false
+  }
+}

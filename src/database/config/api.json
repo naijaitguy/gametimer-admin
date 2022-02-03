@@ -1,0 +1,11 @@
+{
+  "local":{
+    "host": "http://localhost:3000"
+  },
+  "development": {
+    "host": "https://b4ppmc2t36.execute-api.eu-west-1.amazonaws.com/dev"
+  },
+  "production": {
+    "host": "https://b4ppmc2t36.execute-api.eu-west-1.amazonaws.com/dev"
+  }
+}
