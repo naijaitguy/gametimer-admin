@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy container app to Azure Web App - gametimeradmin
+name: Build and deploy Node.js app to Azure Web App - gametimeradmin
 
 on:
   push:
@@ -11,41 +11,46 @@ on:
 
 jobs:
   build:
-    runs-on: 'ubuntu-latest'
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
 
-    - name: Log in to registry
-      uses: docker/login-action@v1
-      with:
-        registry: https://gametimeradmin.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_435c8267ff394b90be24bdbb9cad29d4 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_54f3a1fdc36e49b1b3c3d5231a11021b }}
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
 
-    - name: Build and push container image to registry
-      uses: docker/build-push-action@v2
-      with:
-        push: true
-        tags: gametimeradmin.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_435c8267ff394b90be24bdbb9cad29d4 }}/gametimer_admin:${{ github.sha }}
-        file: ./Dockerfile
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-app
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'production'
+      name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-    - name: Deploy to Azure Web App
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'gametimeradmin'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1ed2a2144e0b4fba9cff1043614fa38f }}
-        images: 'gametimeradmin.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_435c8267ff394b90be24bdbb9cad29d4 }}/gametimer_admin:${{ github.sha }}'
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: node-app
+
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'gametimeradmin'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2DCCDDAD82B54227BF9D9E6A5045A21E }}
+          package: .
