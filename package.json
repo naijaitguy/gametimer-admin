@@ -7,7 +7,6 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "lint": "eslint .",
-    "test": "jest",
     "seq-create": "npm run seq-migrate && npm run seq-seed",
     "seq-undo": "sequelize db:migrate:undo",
     "seq-drop": "sequelize db:migrate:undo:all",
