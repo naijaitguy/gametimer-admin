@@ -22,10 +22,10 @@ app.use('/api/v1/identity', identityRouter);
 
 app.use(AuthHelper.ErrorHandler);  
 /////////////page Not Found ---------------
-app.get('*', function(req, res){ res.status(404).json("404 Page Not found ")});
-app.post('*', function(req, res){ res.status(404).json("404 Page Not found ")});
-app.put('*', function(req, res){ res.status(404).json("404 Page Not found ")});
-app.delete('*', function(req, res){ res.status(404).json("404 Page  Not found ")});
+app.get('*', function(req, res){ res.status(404).json("Resources Not Found on game Timer ")});
+app.post('*', function(req, res){ res.status(404).json("Resources Not Found on game Timer")});
+app.put('*', function(req, res){ res.status(404).json("Resources Not Found on game Timer")});
+app.delete('*', function(req, res){ res.status(404).json("Resources Not Found on game Timer ")});
 
 
 module.exports = app;
