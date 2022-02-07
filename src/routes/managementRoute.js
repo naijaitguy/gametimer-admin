@@ -9,7 +9,7 @@ const ManagementRoute = require('../controllers/managementcontroller');
 
 
 ///////Get All-----------------------
-router.get("/getalluser", AuthHelper.Authorization([ 1, 2]), ManagementRoute.GetAll);
+router.get("/getallusers", AuthHelper.Authorization([ 1, 2]), ManagementRoute.GetAll);
 router.put("/updateuser:id",AuthHelper.Authorization([2,1]),ManagementRoute.UpdateUser);
 router.get("/getuserbyid/:id",AuthHelper.Authorization([2,1]),ManagementRoute.GetUserById);
 router.get("/getuserbyage/:age",AuthHelper.Authorization([2,1]),ManagementRoute.UpdateUser);
