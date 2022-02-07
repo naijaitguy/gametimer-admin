@@ -22,7 +22,7 @@ exports.Authorization =  (roles = [])=> {
 
       if (roles.length && !roles.includes(req.user.role)) {
                // user's role is not authorized
-               return res.status(401).json({ message: 'Unauthorized' });
+               return res.status(401).json({ message: 'Unauthorized Access, Contact Admin for Access ' });
            }
  
            // authentication and authorization successful
@@ -51,7 +51,7 @@ exports.Authorization =  (roles = [])=> {
 
   exports.CreateAccesstoken = (User) =>{
 
-    const Token = jwt.sign({ id:User.id ,email: User.email, role:User.role_id}, secret, { expiresIn:'10m'} );
+    const Token = jwt.sign({ id:User.id ,email: User.email, role:User.role_id}, secret, { expiresIn:'90m'} );
     return Token;
   }  
 

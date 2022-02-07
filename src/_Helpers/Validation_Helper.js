@@ -19,6 +19,24 @@ exports.ValidateManageAccount = ( data)=>{
 
 }
 
+exports.validateuser=(data)=>{
+
+   const schema = Joi.object().keys({
+
+    
+            name:Joi.string().required().trim(),
+        
+            city: Joi.string().required().trim(),
+            country: Joi.string().required().trim(),
+            language: Joi.string().required().trim(),
+            email: Joi.string().email().required().trim(),
+            phone: Joi.string().required().trim(),
+            phonePrefix: null,
+            salutation: null,
+            newsletter: false,
+
+   })
+}
 
 exports.ValidateAuthenticationInput = ( data)=>{
 
