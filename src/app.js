@@ -1,4 +1,5 @@
 var express = require('express');
+var cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -6,6 +7,7 @@ var identityRouter = require('./routes/IdentityRoute');
 var managementRouter = require('./routes/managementRoute');
 const AuthHelper = require("./_Helpers/Auth_Helper");
 var app = express();
+app.use(cors());
 const Port = process.env.PORT||3000;
 
 app.use(logger('dev'));
@@ -14,8 +16,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 ////////////////////global error handler-------
-swaggerJsdoc = require("swagger-jsdoc"),
-swaggerUi = require("swagger-ui-express");
 ///////////////
 app.use('/api/v1/management', managementRouter);
 app.use('/api/v1/identity', identityRouter);
