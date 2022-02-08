@@ -128,7 +128,7 @@ exports.Authenticate = async (req, res, next) => {
 
                     const AccesToken = AuthHelper.CreateAccesstoken(data);
 
-                    res.status(400).json({data:data,token:AccesToken, responseCode:"400",responseDescription:" login  Succesful "})
+                    res.status(200).json({data:data,token:AccesToken, responseCode:"200",responseDescription:" login  Succesful "})
 
                 } else{ res.status(400).json({data:null, responseCode:"400",responseDescription:"Invalid login Credentials"})}
 
