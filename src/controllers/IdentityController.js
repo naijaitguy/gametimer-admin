@@ -4,9 +4,38 @@ const AuthHelper = require('../_Helpers/Auth_Helper');
 const UserService= require('../services/UserService');
 const Joi = require('joi');
 const Bcrypt = require('bcrypt');
+const { Role } = require("../database/models");
 
-const User = require('../database/models').AdminUser
+const User = require('../database/models').AdminUser;
+const Rol = require('../database/models').Role;
 
+
+exports.GetRoles = async(req,res,next)=>{
+await Role.findAll().then(
+    data=>{ 
+        if(data?.length>0){ 
+        res.status(200).json({data:data, responseCode:"200",responseDescription:"Successful"});}
+   else{ 
+
+    res.status(404).json({data:data, responseCode:"404",responseDescription:"Not Found"});
+   }
+   
+    }
+)  .catch(err=>{  next.status(400).json({data:null, responseCode:"400",responseDescription:""}) })
+
+}
+
+exports.GetLogedInUser = async(req,res,next)=>{
+
+    const CurrentUserid = req.user.id;
+
+    const Admin = await User.findByPk(CurrentUserid).then( data=>
+        {  res.status(200).json({data:data, responseCode:"200",responseDescription:'Successful'})}
+    ).catch(err => res.status(500).json({data:null, responseCode:"500",responseDescription:"Internal Server Error"}))
+
+    console.warn(CurrentUserid);
+
+};
 exports.GetAll = async (req,res,next)=>{ 
     
      await UserService.GetAllUsers()
@@ -83,30 +112,6 @@ else{
    
 
 }
-
-exports.FindUserByEmail = async (req, res,next)=>{
-
-            /////validate user input with joi-------------
-Joi.validate(req.body, Validation_Helper.ValidateEmail(req.body), async (err, Result )=>{
-
-    if(err){ res.status(442).json({mgs:err.details.map(i => i.message ).join(" / ")})}
-    
-else{
-
-    const Email = req.body.Email;
-
-    await UserService.GetUserByEmail(Email)
-    .then(Response=> Response? res.status(200).json("Email Found") : res.status(404).json("User Not Found") )
-    .catch( err => next(err));
-
-
-}
-
-    });
-
-   
-};
-
 
 
 exports.Authenticate = async (req, res, next) => {
@@ -211,29 +216,6 @@ exports.ManageUserRole = async (req ,res, next ) =>{
   
   }
 
-exports.CreateStaffAccount = async (req, res) =>{
-
-    
-    /////validate user input with joi-------------
-Joi.validate(req.body, Validation_Helper.ValidateCreateAccountModel(req.body), async (err, Result )=>{
-
-if(err){ res.status(442).json({mgs:err.details.map(i => i.message ).join(" / ")})}
-
-
-else{
-
-    req.body.Role= "Admin";
-    await   UserService.CreateAccount(req.body).then( Response=>{
-           res.status(201).json({Mgs:" Registration Succeesful"});
-       })
-       .catch( err => {  console.error(err); res.status(500).json({Mgs:" Internal Server Error ", err})});
-
-}
-});
-
- 
-
-    }
 
 
  exports.DeleteUser = async (req ,res, next ) =>{
@@ -251,9 +233,6 @@ else{
     }
 
 exports.Log_Out = async (req, res, next) =>{
-
-    const CurrentUserId = req.user.Id;
-   UserService.Log_Out(CurrentUserId)
-   .then(  Response => res.status(200).json("Log Out Successfull"))
-   .catch( err => next(err));
+res.status(200).json("Log Out Successfull")
+   
 }
