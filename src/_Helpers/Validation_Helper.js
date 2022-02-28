@@ -30,7 +30,7 @@ exports.validateuser=(data)=>{
             country: Joi.string().required().trim(),
             language: Joi.string().required().trim(),
             email: Joi.string().email().required().trim(),
-            phone: Joi.string().required().trim(),
+          //  phone: Joi.string().required().trim(),
             phonePrefix: null,
             salutation: null,
             newsletter: false,
@@ -130,7 +130,7 @@ exports.ValidateCreateAccountModel = ( data)=>{
 
      role_id: Joi.number().required(),
 
-      phone: Joi.number().required(),
+     // phone: Joi.number().required(),
 
       
       password: Joi.string().required(),

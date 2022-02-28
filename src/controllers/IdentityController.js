@@ -9,7 +9,6 @@ const { Role } = require("../database/models");
 const User = require('../database/models').AdminUser;
 const Rol = require('../database/models').Role;
 
-
 exports.GetRoles = async(req,res,next)=>{
 await Role.findAll().then(
     data=>{ 
@@ -36,13 +35,15 @@ exports.GetLogedInUser = async(req,res,next)=>{
     console.warn(CurrentUserid);
 
 };
+
 exports.GetAll = async (req,res,next)=>{ 
     
      await UserService.GetAllUsers()
-     .then( Response=> Response? res.status(200).json(Response): res.status(404).json("No User Found"))
+     .then( Response=> Response? res.status(200).json({ data:Response,responseCode:"200",responseDescription:'Successful'}): res.status(404).json("No User Found"))
      .catch( err => next(err))
 
-    };
+};
+
 exports.CreateAccount = async (req, res, next) =>{
 
     
@@ -87,7 +88,8 @@ exports.CreateAccount = async (req, res, next) =>{
 
 
  
-    }
+}
+
 exports.FindUserById = async (req, res, next)=> {
 
         /////validate user input with joi-------------
@@ -113,7 +115,6 @@ else{
 
 }
 
-
 exports.Authenticate = async (req, res, next) => {
 
         /////validate user input with joi-------------
@@ -122,10 +123,9 @@ exports.Authenticate = async (req, res, next) => {
     else{
 
         
-        const LoginModel =  {  email:req.body.email, password:req.body.password, }
-                  await  User.findOne({
-                where: {email: LoginModel.email}
-              })
+    const LoginModel =  {  email:req.body.email, password:req.body.password, }
+      await  User.findOne({
+                where: {email: LoginModel.email}          })
               .then(data=>{
 
                 if(data && Bcrypt.compareSync(LoginModel.password,data.password)){
@@ -142,11 +142,6 @@ exports.Authenticate = async (req, res, next) => {
 
             
             }
-
-
-    
-
-   
     
 };
 
@@ -214,25 +209,36 @@ exports.ManageUserRole = async (req ,res, next ) =>{
       });
 
   
-  }
+}
 
-
-
- exports.DeleteUser = async (req ,res, next ) =>{
+exports.DeleteUser = async (req ,res, next ) =>{
       
       const Id = req.params.id;
-      const CurrentUserRole = req.user.role;
+
+         await User.findByPk(Id).then(
+             data=>{
+
+                if(data){
+
+                   // await User.destroy(Id)
+                    //.then(res.status(200).json({data:data,token:AccesToken, responseCode:"200",responseDescription:"Admin User Successfully Removed "}))
+                    //.catch(err => next(err));
+
+                }else{
+
+
+                    res.status(404).json({data:null, responseCode:"404",responseDescription:"User Not Found. "})
+
+                }
+
+             }
+         )
+         .catch(err=>{  res.status(500).json({data:null, responseCode:"500",responseDescription:" Try Again "}) })
       
-     if(CurrentUserRole !== "Director"){ res.status(401).json("Access Denied Only Diresctor Have Access") }else{
+     
       
-      await UserService.DeleteUser(Id)
-      .then(Response => res.status(200).json("User Deleted"))
-      .catch(err => next(err));
-      
-      }
-    }
+}
 
 exports.Log_Out = async (req, res, next) =>{
-res.status(200).json("Log Out Successfull")
-   
+res.status(200).json("Log Out Successfull")   
 }

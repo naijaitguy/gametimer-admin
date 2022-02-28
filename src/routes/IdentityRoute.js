@@ -20,6 +20,8 @@ router.post("/ManageUserRole/:id", AuthHelper.Authorization(), IdentityRoute.Man
 router.delete("/logout", AuthHelper.Authorization(),  IdentityRoute.Log_Out);
 router.delete("/DeleteUser/:id", AuthHelper.Authorization(), IdentityRoute.DeleteUser);
 router.get("/getroles", AuthHelper.Authorization(), IdentityRoute.GetRoles);
+router.post("/add-admin",AuthHelper.Authorization([1,2],IdentityRoute.CreateAccount));
+
 
 
 module.exports = router;

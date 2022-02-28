@@ -37,5 +37,7 @@ db.Sequelize = Sequelize;
  db.AdminUser = require('../models/adminuser')(sequelize, Sequelize);
  db.User = require('../models/user')(sequelize, Sequelize);
  db.Role = require('../models/role')(sequelize,Sequelize);
-
+ db.Device = require('../models/device')(sequelize,Sequelize);
+ db.DeviceLogs = require('../models/devicelogs')(sequelize,Sequelize);
+ db.Configuration = require('../models/configuration')(sequelize,Sequelize);
 module.exports = db;

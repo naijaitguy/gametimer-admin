@@ -4,12 +4,110 @@ const AuthHelper = require('../_Helpers/Auth_Helper');
 const UserService= require('../services/UserService');
 const Joi = require('joi');
 const Bcrypt = require('bcrypt');
+const devicelogs = require("../database/models/devicelogs");
+const configuration = require("../database/models/configuration");
 
-const AdminUser = require('../database/models').AdminUser
+const AdminUser = require('../database/models').AdminUser;
+
+const Device = require('../database/models').Device;
+const User = require('../database/models').User;
+
+const DeviceLogs = require('../database/models').DeviceLogs;
+
+const Configuration = require("../database/models").Configuration;
 
 
-const User = require('../database/models').User
+exports.GetDeviceConfiguration = async (req,res,next)=>{ 
+     
+     var sn = req.params.sn;
+ console.log(sn)
+     await  Configuration.findAll({ where :{serialNumber:sn}})
+     .then( Response=> {
+          if(Response?.length> 0){
+               res.status(200).json({data:Response , responseCode:"200",responseDescription:"Successful "})
+    
+          } else{ 
 
+               res.status(404).json({data:null , responseCode:"404",responseDescription:"Not Found "})
+    
+          }
+    
+     })
+     .catch( err => next(err))
+
+    };
+exports.GetAllConfiguration = async (req,res,next)=>{ 
+     
+     await  Configuration.findAll()
+     .then( Response=> {
+          if(Response?.length> 0){
+               res.status(200).json({data:Response , responseCode:"200",responseDescription:"Successful "})
+    
+          } else{ 
+
+               res.status(404).json({data:null , responseCode:"404",responseDescription:"Not Found "})
+    
+          }
+    
+     })
+     .catch( err => next(err))
+
+    };
+
+    exports.GetDeviceLogs = async (req,res,next)=>{ 
+     
+     var sn = req.params.sn;
+ console.log(sn)
+     await  DeviceLogs.findAll({ where :{serialNumber:sn}})
+     .then( Response=> {
+          if(Response?.length> 0){
+               res.status(200).json({data:Response , responseCode:"200",responseDescription:"Successful "})
+    
+          } else{ 
+
+               res.status(404).json({data:null , responseCode:"404",responseDescription:"Not Found "})
+    
+          }
+    
+     })
+     .catch( err => next(err))
+
+    };
+
+exports.GetAllDeviceLogs = async (req,res,next)=>{ 
+     
+     await  DeviceLogs.findAll()
+     .then( Response=> {
+          if(Response?.length> 0){
+               res.status(200).json({data:Response , responseCode:"200",responseDescription:"Successful "})
+    
+          } else{ 
+
+               res.status(404).json({data:null , responseCode:"404",responseDescription:"Not Found "})
+    
+          }
+    
+     })
+     .catch( err => next(err))
+
+    };
+exports.GetAllDevices = async (req,res,next)=>{ 
+     
+     await  Device.findAll()
+     .then( Response=> {
+          if(Response?.length> 0){
+               res.status(200).json({data:Response , responseCode:"200",responseDescription:"Successful "})
+    
+          } else{ 
+
+               res.status(404).json({data:null , responseCode:"404",responseDescription:"Not Found "})
+    
+          }
+    
+     })
+     .catch( err => next(err))
+
+    };
 exports.CountAll = async (req,res,next)=>{ 
     
      await User.findAll()
@@ -26,7 +124,14 @@ exports.CountAll = async (req,res,next)=>{
      await User.findAll({ where :{verified:true}})
      .then( Response=> {
 
-          res.status(200).json({data: {totalactiveuser:Response.length} , responseCode:"200",responseDescription:"Successful "})
+          if(Response?.length> 0){
+               res.status(200).json({data:{avtiveuser:Response.length} , responseCode:"200",responseDescription:"Successful "})
+    
+          } else{ 
+
+               res.status(404).json({data:null , responseCode:"404",responseDescription:"Not Found "})
+    
+          }
      })
      .catch( err => next(err))
 
@@ -35,8 +140,19 @@ exports.CountAll = async (req,res,next)=>{
 exports.GetAll = async (req,res,next)=>{ 
     
      await User.findAll()
-     .then( Response=> Response? res.status(200).json(Response): res.status(404).json("No User Found"))
-     .catch( err => next(err))
+     .then( Response=>{
+          
+          if(Response?.length> 0){
+               res.status(200).json({data:Response , responseCode:"200",responseDescription:"Successful "})
+    
+          } else{ 
+
+               res.status(404).json({data:null , responseCode:"404",responseDescription:"Not Found "})
+    
+          }
+
+     }
+     ).catch( err => next(err))
 
     };
     exports.GetUserById = async (req,res,next)=>{
