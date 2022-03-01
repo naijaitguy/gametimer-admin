@@ -25,6 +25,8 @@ router.get("/getalldevicelogs", AuthHelper.Authorization([1,2]), ManagementRoute
 router.get("/getdevicelog/:sn", AuthHelper.Authorization([1,2]), ManagementRoute.GetDeviceLogs);
 router.get("/getallconfiguration", AuthHelper.Authorization([1,2]), ManagementRoute.GetAllConfiguration);
 router.get("/getdeviceconfiguration/:sn", AuthHelper.Authorization([1,2]), ManagementRoute.GetDeviceConfiguration);
+router.get("/getdevice/:sn", AuthHelper.Authorization([1,2]), ManagementRoute.GetDevice);
+
 
 
 module.exports = router;

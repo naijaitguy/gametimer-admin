@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
+    serialNumber:DataTypes.STRING,
     raw: DataTypes.STRING,
     loggingId: DataTypes.INTEGER,
     recordType: DataTypes.INTEGER,

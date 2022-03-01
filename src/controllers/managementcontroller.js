@@ -73,7 +73,25 @@ exports.GetAllConfiguration = async (req,res,next)=>{
      .catch( err => next(err))
 
     };
+    exports.GetDevice = async (req,res,next)=>{ 
+     
+     var sn = req.params.sn;
+ console.log(sn)
+     await  Device.findAll({ where :{serialNumber:sn}})
+     .then( Response=> {
+          if(Response?.length> 0){
+               res.status(200).json({data:Response , responseCode:"200",responseDescription:"Successful "})
+    
+          } else{ 
 
+               res.status(404).json({data:null , responseCode:"404",responseDescription:"Not Found "})
+    
+          }
+    
+     })
+     .catch( err => next(err))
+
+    };
 exports.GetAllDeviceLogs = async (req,res,next)=>{ 
      
      await  DeviceLogs.findAll()
