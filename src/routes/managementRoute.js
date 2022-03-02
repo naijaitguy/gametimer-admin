@@ -29,6 +29,7 @@ router.get("/getdevice/:sn", AuthHelper.Authorization([1,2]), ManagementRoute.Ge
 router.get("/getdevicecolour", AuthHelper.Authorization([1,2]), ManagementRoute.GetAllDevicesColour);
 router.get("/getdevicestatus", AuthHelper.Authorization([1,2]), ManagementRoute.GetDeviceStatus);
 router.get("/getcountry", AuthHelper.Authorization([1,2]), ManagementRoute.GetCountry);
+router.get("/getdevices-user", AuthHelper.Authorization([1,2]), ManagementRoute.GetDeviceandUser);
 
 
 

@@ -19,6 +19,27 @@ const DeviceLogs = require('../database/models').DeviceLogs;
 const Configuration = require("../database/models").Configuration;
 
 
+exports.GetDeviceandUser = async (req,res,next)=>{ 
+
+     try{
+
+ 
+
+        const Users_count  = await User.findAll();
+        const Device_count = await Device.findAll();
+       const ActiveDevice  = await Device.findAll({where:{flightMode:false }})
+        const InActiveDevice  = await Device.findAll({where:{flightMode:true }})
+
+
+
+        res.status(200).json({data:{Users_count:Users_count.length, Device_count:Device_count.length,ActiveDevice:ActiveDevice.length, InActiveDevice:InActiveDevice.length } , responseCode:"200",responseDescription:"Successful "})
+        
+     }
+     catch(error){  res.status(500).json(error)}
+     
+  
+    };
+
 exports.GetDeviceStatus = async (req,res,next)=>{ 
 
      try{
