@@ -8,6 +8,7 @@ const devicelogs = require("../database/models/devicelogs");
 const configuration = require("../database/models/configuration");
 const { Op } = require('sequelize');
 const { Error } = require("sequelize");
+const user = require("../database/models/user");
 const AdminUser = require('../database/models').AdminUser;
 
 const Device = require('../database/models').Device;
@@ -17,7 +18,30 @@ const DeviceLogs = require('../database/models').DeviceLogs;
 
 const Configuration = require("../database/models").Configuration;
 
+exports.GetCountry = async (req,res,next)=>{ 
 
+     try{
+
+        //  black: 0,
+        //   army: 1,
+        //    blue: 2,
+        //    silver: 3,
+        //  white: 4,
+
+
+        const nl  = await User.findAll({where:{country:'nl' }})
+        const us = await User.findAll({where:{country:'us' }})
+        const fr = await User.findAll({where:{country:'fr' }})
+        const uk = await User.findAll({where:{country:'uk' }})
+        const be = await User.findAll({where:{country:'be' }})
+
+        res.status(200).json({data:{nl:nl.length, us:us.length, fr:fr.length,uk:uk.length, be:be.length } , responseCode:"200",responseDescription:"Successful "})
+        
+     }
+     catch(error){  res.status(500).json(error)}
+     
+  
+    };
 
 exports.GetAllDevicesColour = async (req,res,next)=>{ 
 
