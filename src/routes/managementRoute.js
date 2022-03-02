@@ -19,13 +19,14 @@ router.get("/getuserbyemail/:email",AuthHelper.Authorization([2,1]),ManagementRo
 router.get("/getuserbyname/:name",AuthHelper.Authorization([2,1]),ManagementRoute.GetUserByName);
 router.get("/getuserbydateregistered/:date",AuthHelper.Authorization([2,1]),ManagementRoute.GetUserDateregistered);
 router.get("/countallusers",AuthHelper.Authorization([2,1]),ManagementRoute.CountAll);
-router.get("/countactiveusers",AuthHelper.Authorization([2,1]),ManagementRoute.CountAllActiveUsers);
+router.get("/getallactiveusers",AuthHelper.Authorization([2,1]),ManagementRoute.GetAllActiveUsers);
 router.get("/getalldevices", AuthHelper.Authorization([1,2]), ManagementRoute.GetAllDevices);
 router.get("/getalldevicelogs", AuthHelper.Authorization([1,2]), ManagementRoute.GetAllDeviceLogs);
 router.get("/getdevicelog/:sn", AuthHelper.Authorization([1,2]), ManagementRoute.GetDeviceLogs);
 router.get("/getallconfiguration", AuthHelper.Authorization([1,2]), ManagementRoute.GetAllConfiguration);
 router.get("/getdeviceconfiguration/:sn", AuthHelper.Authorization([1,2]), ManagementRoute.GetDeviceConfiguration);
 router.get("/getdevice/:sn", AuthHelper.Authorization([1,2]), ManagementRoute.GetDevice);
+router.get("/getdevicecolour", AuthHelper.Authorization([1,2]), ManagementRoute.GetAllDevicesColour);
 
 
 

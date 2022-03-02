@@ -6,7 +6,8 @@ const Joi = require('joi');
 const Bcrypt = require('bcrypt');
 const devicelogs = require("../database/models/devicelogs");
 const configuration = require("../database/models/configuration");
-
+const { Op } = require('sequelize');
+const { Error } = require("sequelize");
 const AdminUser = require('../database/models').AdminUser;
 
 const Device = require('../database/models').Device;
@@ -17,6 +18,31 @@ const DeviceLogs = require('../database/models').DeviceLogs;
 const Configuration = require("../database/models").Configuration;
 
 
+
+exports.GetAllDevicesColour = async (req,res,next)=>{ 
+
+     try{
+
+        //  black: 0,
+        //   army: 1,
+        //    blue: 2,
+        //    silver: 3,
+        //  white: 4,
+
+
+        const black = await Device.findAll({where:{color:0 }})
+        const army = await Device.findAll({where:{color:1 }})
+        const blue = await Device.findAll({where:{color:2 }})
+        const silver = await Device.findAll({where:{color:3 }})
+        const white = await Device.findAll({where:{color:4 }})
+
+        res.status(200).json({data:{black:black.length, army:army.length, blue:blue.length,silver:silver.length, white:white.length } , responseCode:"200",responseDescription:"Successful "})
+        
+     }
+     catch(error){ return Error;}
+     
+  
+    };
 exports.GetDeviceConfiguration = async (req,res,next)=>{ 
      
      var sn = req.params.sn;
@@ -57,8 +83,8 @@ exports.GetAllConfiguration = async (req,res,next)=>{
     exports.GetDeviceLogs = async (req,res,next)=>{ 
      
      var sn = req.params.sn;
- console.log(sn)
-     await  DeviceLogs.findAll({ where :{serialNumber:sn}})
+      console.log(sn)
+     await  DeviceLogs.findAll({ where :{id:sn}})
      .then( Response=> {
           if(Response?.length> 0){
                res.status(200).json({data:Response , responseCode:"200",responseDescription:"Successful "})
@@ -76,7 +102,7 @@ exports.GetAllConfiguration = async (req,res,next)=>{
     exports.GetDevice = async (req,res,next)=>{ 
      
      var sn = req.params.sn;
- console.log(sn)
+      console.log(sn)
      await  Device.findAll({ where :{serialNumber:sn}})
      .then( Response=> {
           if(Response?.length> 0){
@@ -128,7 +154,7 @@ exports.GetAllDevices = async (req,res,next)=>{
     };
 exports.CountAll = async (req,res,next)=>{ 
     
-     await User.findAll()
+     await User.findAll({ where :{verified:true}})
      .then( Response=> {
 
           res.status(200).json({data: {totaluser:Response.length} , responseCode:"200",responseDescription:"Successful "})
@@ -137,13 +163,16 @@ exports.CountAll = async (req,res,next)=>{
 
     };
 
-    exports.CountAllActiveUsers = async (req,res,next)=>{ 
+    exports.GetAllActiveUsers = async (req,res,next)=>{ 
     
-     await User.findAll({ where :{verified:true}})
-     .then( Response=> {
-
+     await Configuration.findAll()
+          .then( Response=> {
+//console.log(Response)
           if(Response?.length> 0){
-               res.status(200).json({data:{avtiveuser:Response.length} , responseCode:"200",responseDescription:"Successful "})
+
+               const ActiveDevice = Response[0].configuration.every(x => x.active === true);
+               console.log(ActiveDevice)
+               res.status(200).json({data:ActiveDevice, activeUser:ActiveDevice.length , responseCode:"200",responseDescription:"Successful "})
     
           } else{ 
 
@@ -157,7 +186,7 @@ exports.CountAll = async (req,res,next)=>{
 
 exports.GetAll = async (req,res,next)=>{ 
     
-     await User.findAll()
+     await User.findAll({ where :{verified:true}})
      .then( Response=>{
           
           if(Response?.length> 0){
