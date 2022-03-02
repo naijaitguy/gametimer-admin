@@ -18,6 +18,32 @@ const DeviceLogs = require('../database/models').DeviceLogs;
 
 const Configuration = require("../database/models").Configuration;
 
+
+exports.GetDeviceStatus = async (req,res,next)=>{ 
+
+     try{
+
+        //  black: 0,
+        //   army: 1,
+        //    blue: 2,
+        //    silver: 3,
+        //  white: 4,
+
+
+        const assigned  = await Device.findAll({where:{status:'assigned' }})
+        const assigning = await Device.findAll({where:{status:'assigning' }})
+        const unassigned  = await Device.findAll({where:{status:'unassigned' }})
+
+
+       
+
+        res.status(200).json({data:{assigned:assigned.length, assigning:assigning.length, unassigned:unassigned.length, } , responseCode:"200",responseDescription:"Successful "})
+        
+     }
+     catch(error){  res.status(500).json(error)}
+     
+  
+    };
 exports.GetCountry = async (req,res,next)=>{ 
 
      try{
