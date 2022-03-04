@@ -4,7 +4,7 @@ const AuthHelper = require('../_Helpers/Auth_Helper');
 const UserService= require('../services/UserService');
 const Joi = require('joi');
 const Bcrypt = require('bcrypt');
-const { Role } = require("../database/models");
+const { Role } = require("../database/models")
 
 const User = require('../database/models').AdminUser;
 const Rol = require('../database/models').Role;
@@ -26,13 +26,20 @@ await Role.findAll().then(
 
 exports.GetLogedInUser = async(req,res,next)=>{
 
+
+    try{
     const CurrentUserid = req.user.id;
 
-    const Admin = await User.findByPk(CurrentUserid).then( data=>
-        {  res.status(200).json({data:data, responseCode:"200",responseDescription:'Successful'})}
-    ).catch(err => res.status(500).json({data:null, responseCode:"500",responseDescription:"Internal Server Error"}))
+    const Admin = await User.findByPk(CurrentUserid)  
+    
+ 
+    const userRole = await  Role.findByPk(Admin.role_id);
 
-    console.warn(CurrentUserid);
+    res.status(200).json({data:Admin, rolename:userRole.role_name, responseCode:"200",responseDescription:'Successful'})
+    }
+    catch(err){
+        res.status(500).json({data:null, responseCode:"500",responseDescription:"Internal Server Error"});
+    }
 
 };
 
