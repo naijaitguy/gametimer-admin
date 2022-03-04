@@ -155,7 +155,7 @@ exports.GetAllConfiguration = async (req,res,next)=>{
      
      var sn = req.params.sn;
       console.log(sn)
-     await  DeviceLogs.findAll({ where :{id:sn}})
+     await  DeviceLogs.findAll({ where :{serialNumber:sn}})
      .then( Response=> {
           if(Response?.length> 0){
                res.status(200).json({data:Response , responseCode:"200",responseDescription:"Successful "})
@@ -296,16 +296,16 @@ exports.GetAll = async (req,res,next)=>{
     exports.GetUserById = async (req,res,next)=>{
 
      const Userid = req.params.id;
-
-      await User.findOne({where :{id:Userid}}).then(user =>{
+   
+      await User.findByPk(Userid).then(user =>{
 
            if(user){
         res.status(200).json({data:user, responseCode:"200",responseDescription:"Successful "})
-
+      
            }
            
-           else{res.status(404).json({data:null, responseCode:"404",responseDescription:"User not Found"})  }
-           console.log(user)
+           else{res.status(404).json({data:null, responseCode:"404",responseDescription:"User not Found"})  ;  console.log(user) }
+         
       }).catch( err => next(err))
      console.log(Userid);
 
