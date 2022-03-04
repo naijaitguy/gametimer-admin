@@ -30,6 +30,7 @@ router.get("/getdevicecolour", AuthHelper.Authorization([1,2]), ManagementRoute.
 router.get("/getdevicestatus", AuthHelper.Authorization([1,2]), ManagementRoute.GetDeviceStatus);
 router.get("/getcountry", AuthHelper.Authorization([1,2]), ManagementRoute.GetCountry);
 router.get("/getdevices-user", AuthHelper.Authorization([1,2]), ManagementRoute.GetDeviceandUser);
+router.get("/getdevicebyuser/:userid", AuthHelper.Authorization([1,2]), ManagementRoute.GetDevicebyuserid);
 
 
 
