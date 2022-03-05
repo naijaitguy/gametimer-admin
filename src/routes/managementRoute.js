@@ -23,6 +23,7 @@ router.get("/getallactiveusers",AuthHelper.Authorization([2,1]),ManagementRoute.
 router.get("/getalldevices", AuthHelper.Authorization([1,2]), ManagementRoute.GetAllDevices);
 router.get("/getalldevicelogs", AuthHelper.Authorization([1,2]), ManagementRoute.GetAllDeviceLogs);
 router.get("/getdevicelog/:sn", AuthHelper.Authorization([1,2]), ManagementRoute.GetDeviceLogs);
+router.get("/getlog/:id", AuthHelper.Authorization([1,2]), ManagementRoute.GetLog);
 router.get("/getallconfiguration", AuthHelper.Authorization([1,2]), ManagementRoute.GetAllConfiguration);
 router.get("/getdeviceconfiguration/:sn", AuthHelper.Authorization([1,2]), ManagementRoute.GetDeviceConfiguration);
 router.get("/getdevice/:sn", AuthHelper.Authorization([1,2]), ManagementRoute.GetDevice);
