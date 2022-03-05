@@ -155,7 +155,7 @@ exports.GetAllConfiguration = async (req,res,next)=>{
      
      var sn = req.params.id;
       console.log(sn)
-     await  DeviceLogs.findAll({where:{id:sn}})
+     await  DeviceLogs.findOne({where:{id:sn}})
      .then( Response=> {
           if(Response?.length> 0){
                res.status(200).json({data:Response , responseCode:"200",responseDescription:"Successful "})
