@@ -6,8 +6,7 @@ const Joi = require('joi');
 const Bcrypt = require('bcrypt');
 const devicelogs = require("../database/models/devicelogs");
 const configuration = require("../database/models/configuration");
-const { Op } = require('sequelize');
-const { Error } = require("sequelize");
+
 const user = require("../database/models/user");
 const AdminUser = require('../database/models').AdminUser;
 
@@ -18,7 +17,62 @@ const DeviceLogs = require('../database/models').DeviceLogs;
 
 const Configuration = require("../database/models").Configuration;
 
+const { Op } = require('sequelize');
+const Db = require('../database/models');
+const db = require("../database/models");
+const { type } = require("express/lib/response");
 
+
+exports.GetAge = async (req,res,next)=>{ 
+
+     
+
+     try{
+
+  
+          const date_ob = new Date();
+          const year0_2 =  date_ob.getFullYear()-2;
+          const year2_5 =  date_ob.getFullYear()-5;
+          const year5_8 =  date_ob.getFullYear()-8;
+          const year8_12 =  date_ob.getFullYear()-12;
+          const year12_15 =  date_ob.getFullYear()-15;
+          const year15_20 =  date_ob.getFullYear()-20;
+
+
+
+          const Age0_2 = new Date( year0_2,"01","01");
+          const Age2_5 = new Date(year2_5,"01","01")
+          const Age5_8 = new Date(year5_8,"01","01")
+          const Age8_12 = new Date(year8_12,"01","01")
+          const Age12_15 = new Date(year12_15,"01","01")
+          const Age15_20 = new Date(year12_15,"01","01")
+
+          //const test = await Db.sequelize.query("SELECT * FROM `Devices` ", {type:db.sequelize.QueryTypes.SELECT})
+
+
+         // console.log(test)
+       const result2_5 = await Device.findAll({where : {"userAge" : {[Op.between] : [Age2_5 , Age0_2 ]}}});
+
+       const result5_8 = await Device.findAll({where : {"userAge" : {[Op.between] : [Age5_8 , Age2_5 ]}}});
+
+       const result8_12 = await Device.findAll({where : {"userAge" : {[Op.between] : [ Age8_12, Age5_8  ]}}});
+       
+       const result12_15 = await Device.findAll({where : {"userAge" : {[Op.between] : [ Age12_15, Age8_12  ]}}});
+
+       const result15_20 = await Device.findAll({where : {"userAge" : {[Op.between] : [ Age12_15, Age8_12  ]}}});
+
+      res.status(200).json({data:{ result15_20:result15_20.length, result2_5: result2_5.length, result5_8: result5_8.length, result8_12:result8_12.length, result12_15:result12_15.length},
+       responseCode:"200",responseDescription:"Successful "})
+       
+     }
+
+
+     catch(error){ 
+           console.log(error)
+          res.status(500).json(error)}
+     
+  
+    };
 exports.GetDeviceandUser = async (req,res,next)=>{ 
 
      try{

@@ -69,10 +69,13 @@ module.exports = (sequelize, DataTypes) => {
       values: ['assigning', 'assigned', 'unassigned'],
       defaultValue: 'assigning',
     },
+  
   }, 
+  
   {
     sequelize,
     modelName: 'Device',
+    tableName:'Devices'
   });
 
 
